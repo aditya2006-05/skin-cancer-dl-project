@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkinAI — Deep Learning for Skin Cancer Detection</title>
+  <meta name="description" content="A dual-stage deep learning framework combining U-Net segmentation and EfficientNet classification for automated skin cancer detection using the HAM10000 dataset." />
+  <meta name="keywords" content="skin cancer, deep learning, U-Net, EfficientNet, segmentation, classification, melanoma, HAM10000, dermatology, AI" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Nunito:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-icon">🧬</span>
+        <span>SkinAI</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#abstract">Abstract</a></li>
+        <li><a href="#dataset">Dataset</a></li>
+        <li><a href="#pipeline">Pipeline</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#objectives">Objectives</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-orb orb-1"></div>
+      <div class="hero-orb orb-2"></div>
+      <div class="hero-orb orb-3"></div>
+      <div class="grid-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Deep Learning Research Project
+      </div>
+      <h1 class="hero-title">
+        Segmentation & Classification of<br />
+        <span class="gradient-text">Skin Cancer Diseases</span><br />
+        Based on Deep Learning
+      </h1>
+      <p class="hero-subtitle">
+        Challenges and Future Decisions
+      </p>
+      <p class="hero-desc">
+        A dual-stage framework combining <strong>U-Net segmentation</strong> with <strong>EfficientNet / ViT classification</strong> 
+        to automate dermatological screening using the HAM10000 dataset — 10,015 real-world lesion images across 7 disease classes.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-num">10,015</span>
+          <span class="stat-label">Training Images</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">7</span>
+          <span class="stat-label">Disease Classes</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">2-Stage</span>
+          <span class="stat-label">DL Pipeline</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">XAI</span>
+          <span class="stat-label">Explainability</span>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <a href="#pipeline" class="btn-primary">Explore Pipeline</a>
+        <a href="https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000" target="_blank" class="btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v15.556l6.186-6.440c.165-.148.33-.222.495-.222h3.239c.151 0 .245.053.282.159.035.106-.01.225-.131.361l-6.300 6.468 6.590 8.234c.100.131.140.234.122.341z"/></svg>
+          HAM10000 on Kaggle
+        </a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-indicator">
+        <div class="scroll-dot"></div>
+      </div>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
+
+  <!-- ========== ABSTRACT ========== -->
+  <section class="section abstract-section" id="abstract">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Overview</span>
+        <h2 class="section-title">Abstract</h2>
+        <p class="section-subtitle">A high-level overview of the research proposal and its clinical significance</p>
+      </div>
+      <div class="abstract-grid">
+        <div class="abstract-card" data-aos="fade-up">
+          <div class="abstract-icon">🎯</div>
+          <h3>Research Goal</h3>
+          <p>Develop a dual-stage Deep Learning framework to enhance skin cancer detection by combining precise <strong>image segmentation</strong> (U-Net) with high-accuracy <strong>classification</strong> (EfficientNet / ViT).</p>
+        </div>
+        <div class="abstract-card" data-aos="fade-up" data-delay="100">
+          <div class="abstract-icon">⚡</div>
+          <h3>Core Innovation</h3>
+          <p>Automate the screening of malignancies such as <strong>Melanoma</strong> and <strong>Basal Cell Carcinoma</strong> through pixel-wise boundary detection feeding into transfer-learning classifiers.</p>
+        </div>
+        <div class="abstract-card" data-aos="fade-up" data-delay="200">
+          <div class="abstract-icon">⚠️</div>
+          <h3>Key Challenges</h3>
+          <p>Dataset bias toward <strong>lighter skin tones</strong>, severe class imbalance, and lack of transparency in "black-box" neural networks hinder clinical adoption.</p>
+        </div>
+        <div class="abstract-card" data-aos="fade-up" data-delay="300">
+          <div class="abstract-icon">🔬</div>
+          <h3>Future Direction</h3>
+          <p>Transition toward <strong>Explainable AI (XAI)</strong>, fusion of image + patient metadata, and lightweight model optimization for mobile teledermatology.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== DATASET ========== -->
+  <section class="section dataset-section" id="dataset">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Kaggle Dataset</span>
+        <h2 class="section-title">HAM10000 Dataset</h2>
+        <p class="section-subtitle">Human Against Machine with 10,000 training images — the gold standard for skin lesion analysis</p>
+      </div>
+
+      <div class="dataset-overview">
+        <div class="dataset-info">
+          <div class="info-badge kaggle-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v15.556l6.186-6.440c.165-.148.33-.222.495-.222h3.239c.151 0 .245.053.282.159.035.106-.01.225-.131.361l-6.300 6.468 6.590 8.234c.100.131.140.234.122.341z"/></svg>
+            Available on Kaggle
+          </div>
+          <h3>About the Dataset</h3>
+          <p>The HAM10000 ("Human Against Machine") dataset is a large collection of multi-source dermatoscopic images of common pigmented skin lesions. Ground truth verification was performed through histopathology, expert consensus, and in-vivo confocal microscopy.</p>
+          <ul class="dataset-facts">
+            <li><span class="fact-label">Total Images:</span> <span class="fact-value">10,015</span></li>
+            <li><span class="fact-label">Unique Lesions:</span> <span class="fact-value">7,470</span></li>
+            <li><span class="fact-label">Disease Classes:</span> <span class="fact-value">7</span></li>
+            <li><span class="fact-label">Metadata Fields:</span> <span class="fact-value">Age, Sex, Localization</span></li>
+            <li><span class="fact-label">Ground Truth:</span> <span class="fact-value">Histopathology + Expert Consensus</span></li>
+          </ul>
+          <a href="https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000" target="_blank" class="btn-primary btn-sm">
+            Download Dataset on Kaggle →
+          </a>
+        </div>
+        <div class="dataset-chart-container">
+          <div class="chart-title">Class Distribution (HAM10000)</div>
+          <div class="chart-wrapper">
+            <canvas id="distributionChart"></canvas>
+          </div>
+          <div class="chart-note">⚠️ Severe class imbalance: Melanocytic nevi = 67% of data</div>
+        </div>
+      </div>
+
+      <!-- Class Cards -->
+      <div class="class-grid">
+        <div class="class-card melanoma">
+          <div class="class-abbr">MEL</div>
+          <h4>Melanoma</h4>
+          <p>The most dangerous skin cancer. Arises from melanocytes and can spread rapidly if not caught early.</p>
+          <div class="class-count">1,113 images</div>
+        </div>
+        <div class="class-card nv">
+          <div class="class-abbr">NV</div>
+          <h4>Melanocytic Nevi</h4>
+          <p>Benign melanocytic proliferations. The dominant class — forms the core imbalance challenge.</p>
+          <div class="class-count">6,705 images · 67%</div>
+        </div>
+        <div class="class-card bcc">
+          <div class="class-abbr">BCC</div>
+          <h4>Basal Cell Carcinoma</h4>
+          <p>The most common human cancer. Locally destructive but rarely metastasizes.</p>
+          <div class="class-count">514 images</div>
+        </div>
+        <div class="class-card bkl">
+          <div class="class-abbr">BKL</div>
+          <h4>Benign Keratosis</h4>
+          <p>Includes seborrheic keratoses, lichen-planus-like keratoses. Benign but visually similar to melanoma.</p>
+          <div class="class-count">1,099 images</div>
+        </div>
+        <div class="class-card akiec">
+          <div class="class-abbr">AKIEC</div>
+          <h4>Actinic Keratoses</h4>
+          <p>Pre-cancerous lesions caused by UV damage. Can progress to squamous cell carcinoma.</p>
+          <div class="class-count">327 images</div>
+        </div>
+        <div class="class-card vasc">
+          <div class="class-abbr">VASC</div>
+          <h4>Vascular Lesions</h4>
+          <p>Angiomas, angiokeratomas, and pyogenic granulomas. Generally benign vascular tumors.</p>
+          <div class="class-count">142 images</div>
+        </div>
+        <div class="class-card df">
+          <div class="class-abbr">DF</div>
+          <h4>Dermatofibroma</h4>
+          <p>Benign fibrous skin nodules. The rarest class in the dataset — poses extreme imbalance.</p>
+          <div class="class-count">115 images</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PIPELINE ========== -->
+  <section class="section pipeline-section" id="pipeline">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Architecture</span>
+        <h2 class="section-title">Dual-Stage DL Pipeline</h2>
+        <p class="section-subtitle">From raw dermoscopic image to explainable diagnosis in two powerful stages</p>
+      </div>
+
+      <div class="pipeline-flow">
+        <!-- Stage 0: Input -->
+        <div class="pipeline-node input-node">
+          <div class="node-icon">📷</div>
+          <div class="node-label">Input Image</div>
+          <div class="node-desc">Raw dermoscopic image upload</div>
+        </div>
+
+        <div class="pipeline-arrow">
+          <div class="arrow-line"></div>
+          <svg class="arrow-head" viewBox="0 0 12 12"><path d="M0 0 L12 6 L0 12 Z"/></svg>
+        </div>
+
+        <!-- Stage 1: Preprocessing -->
+        <div class="pipeline-node preprocess-node">
+          <div class="node-icon">⚙️</div>
+          <div class="node-label">Preprocessing</div>
+          <div class="node-desc">Resize · Normalize · Augment</div>
+          <div class="node-tech">OpenCV · NumPy</div>
+        </div>
+
+        <div class="pipeline-arrow">
+          <div class="arrow-line"></div>
+          <svg class="arrow-head" viewBox="0 0 12 12"><path d="M0 0 L12 6 L0 12 Z"/></svg>
+        </div>
+
+        <!-- Stage 2: Segmentation -->
+        <div class="pipeline-node seg-node stage-node">
+          <div class="stage-badge">Stage 1</div>
+          <div class="node-icon">🔬</div>
+          <div class="node-label">U-Net Segmentation</div>
+          <div class="node-desc">Pixel-wise lesion masking. Isolates the lesion from hair, shadows & healthy skin.</div>
+          <div class="node-tech">TensorFlow · PyTorch</div>
+          <div class="node-output">→ Binary Mask</div>
+        </div>
+
+        <div class="pipeline-arrow">
+          <div class="arrow-line"></div>
+          <svg class="arrow-head" viewBox="0 0 12 12"><path d="M0 0 L12 6 L0 12 Z"/></svg>
+        </div>
+
+        <!-- Stage 3: Classification -->
+        <div class="pipeline-node clf-node stage-node">
+          <div class="stage-badge stage-2">Stage 2</div>
+          <div class="node-icon">🧠</div>
+          <div class="node-label">EfficientNet / ViT Classification</div>
+          <div class="node-desc">Transfer learning on isolated lesion crops. Predicts disease class from 7 categories.</div>
+          <div class="node-tech">MobileNetV2 / EfficientNet</div>
+          <div class="node-output">→ Class Probabilities</div>
+        </div>
+
+        <div class="pipeline-arrow">
+          <div class="arrow-line"></div>
+          <svg class="arrow-head" viewBox="0 0 12 12"><path d="M0 0 L12 6 L0 12 Z"/></svg>
+        </div>
+
+        <!-- Stage 4: XAI -->
+        <div class="pipeline-node xai-node">
+          <div class="node-icon">💡</div>
+          <div class="node-label">Explainable AI (XAI)</div>
+          <div class="node-desc">Grad-CAM heatmaps highlight regions that influenced the prediction</div>
+          <div class="node-tech">Grad-CAM · SHAP · LIME</div>
+        </div>
+
+        <div class="pipeline-arrow">
+          <div class="arrow-line"></div>
+          <svg class="arrow-head" viewBox="0 0 12 12"><path d="M0 0 L12 6 L0 12 Z"/></svg>
+        </div>
+
+        <!-- Stage 5: Output -->
+        <div class="pipeline-node output-node">
+          <div class="node-icon">📊</div>
+          <div class="node-label">Clinical Report</div>
+          <div class="node-desc">Diagnosis · Confidence score · Visual explanation</div>
+        </div>
+      </div>
+
+      <!-- Architecture Detail Cards -->
+      <div class="arch-cards">
+        <div class="arch-card">
+          <div class="arch-icon unet-icon">U</div>
+          <h3>U-Net Architecture</h3>
+          <ul>
+            <li>Encoder-decoder with skip connections</li>
+            <li>Preserves spatial resolution</li>
+            <li>Handles small lesion boundaries</li>
+            <li>Trained on ISIC segmentation masks</li>
+            <li>Output: Per-pixel binary segmentation mask</li>
+          </ul>
+        </div>
+        <div class="arch-card">
+          <div class="arch-icon eff-icon">E</div>
+          <h3>EfficientNet / MobileNetV2</h3>
+          <ul>
+            <li>Pre-trained on ImageNet (transfer learning)</li>
+            <li>Fine-tuned on HAM10000 lesion crops</li>
+            <li>Handles class imbalance via weighted loss</li>
+            <li>MobileNetV2 optimized for edge/mobile</li>
+            <li>Output: Softmax over 7 disease classes</li>
+          </ul>
+        </div>
+        <div class="arch-card">
+          <div class="arch-icon vit-icon">V</div>
+          <h3>Vision Transformer (ViT)</h3>
+          <ul>
+            <li>Patch-based attention mechanism</li>
+            <li>Captures long-range feature dependencies</li>
+            <li>Outperforms CNNs on large datasets</li>
+            <li>Attention maps align with clinical findings</li>
+            <li>Output: Class token classification head</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ========== RESULTS ========== -->
+  <section class="section results-section" id="results">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Performance</span>
+        <h2 class="section-title">Expected Model Results</h2>
+        <p class="section-subtitle">Benchmark performance targets based on state-of-the-art literature on HAM10000</p>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-ring" data-value="91">
+            <svg viewBox="0 0 120 120">
+              <circle class="ring-bg" cx="60" cy="60" r="50"/>
+              <circle class="ring-fill" cx="60" cy="60" r="50" data-pct="91"/>
+            </svg>
+            <div class="metric-center">
+              <span class="metric-num">91%</span>
+              <span class="metric-sub">Accuracy</span>
+            </div>
+          </div>
+          <div class="metric-label">Classification Accuracy</div>
+          <div class="metric-model">EfficientNet-B4</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-ring" data-value="88">
+            <svg viewBox="0 0 120 120">
+              <circle class="ring-bg" cx="60" cy="60" r="50"/>
+              <circle class="ring-fill seg-fill" cx="60" cy="60" r="50" data-pct="88"/>
+            </svg>
+            <div class="metric-center">
+              <span class="metric-num">88%</span>
+              <span class="metric-sub">IoU Score</span>
+            </div>
+          </div>
+          <div class="metric-label">Segmentation IoU</div>
+          <div class="metric-model">U-Net</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-ring" data-value="85">
+            <svg viewBox="0 0 120 120">
+              <circle class="ring-bg" cx="60" cy="60" r="50"/>
+              <circle class="ring-fill mel-fill" cx="60" cy="60" r="50" data-pct="85"/>
+            </svg>
+            <div class="metric-center">
+              <span class="metric-num">85%</span>
+              <span class="metric-sub">Recall</span>
+            </div>
+          </div>
+          <div class="metric-label">Melanoma Recall</div>
+          <div class="metric-model">MobileNetV2</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-ring" data-value="93">
+            <svg viewBox="0 0 120 120">
+              <circle class="ring-bg" cx="60" cy="60" r="50"/>
+              <circle class="ring-fill auc-fill" cx="60" cy="60" r="50" data-pct="93"/>
+            </svg>
+            <div class="metric-center">
+              <span class="metric-num">0.93</span>
+              <span class="metric-sub">AUC-ROC</span>
+            </div>
+          </div>
+          <div class="metric-label">AUC-ROC Score</div>
+          <div class="metric-model">ViT-B/16</div>
+        </div>
+      </div>
+
+      <!-- Per-Class Accuracy Bar Chart -->
+      <div class="bar-chart-section">
+        <div class="bar-chart-title">Expected Per-Class Classification Accuracy</div>
+        <div class="bar-chart-wrapper">
+          <canvas id="accuracyChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Challenges -->
+      <div class="challenges-section">
+        <h3 class="challenges-title">⚡ Real-World Challenges</h3>
+        <div class="challenge-bars">
+          <div class="challenge-item">
+            <span class="challenge-label">Dataset Bias (Lighter Skin Tones)</span>
+            <div class="challenge-bar-bg"><div class="challenge-bar" style="--w: 85%"></div></div>
+            <span class="challenge-severity high">High</span>
+          </div>
+          <div class="challenge-item">
+            <span class="challenge-label">Class Imbalance (67% Nevi)</span>
+            <div class="challenge-bar-bg"><div class="challenge-bar" style="--w: 90%"></div></div>
+            <span class="challenge-severity high">High</span>
+          </div>
+          <div class="challenge-item">
+            <span class="challenge-label">Black-Box Lack of Explainability</span>
+            <div class="challenge-bar-bg"><div class="challenge-bar cb2" style="--w: 70%"></div></div>
+            <span class="challenge-severity med">Med</span>
+          </div>
+          <div class="challenge-item">
+            <span class="challenge-label">Noise (Hair, Lighting, Shadows)</span>
+            <div class="challenge-bar-bg"><div class="challenge-bar cb2" style="--w: 60%"></div></div>
+            <span class="challenge-severity med">Med</span>
+          </div>
+          <div class="challenge-item">
+            <span class="challenge-label">Clinical Trust & Regulatory Approval</span>
+            <div class="challenge-bar-bg"><div class="challenge-bar cb3" style="--w: 75%"></div></div>
+            <span class="challenge-severity high">High</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== OBJECTIVES ========== -->
+  <section class="section objectives-section" id="objectives">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Goals</span>
+        <h2 class="section-title">Project Objectives</h2>
+        <p class="section-subtitle">What we aim to achieve through this research</p>
+      </div>
+      <div class="objectives-list">
+        <div class="obj-item">
+          <div class="obj-num">01</div>
+          <div class="obj-content">
+            <h3>Automated Framework</h3>
+            <p>Develop a fully automated, end-to-end deep learning system that requires no manual feature engineering or clinical intervention for initial screening.</p>
+          </div>
+        </div>
+        <div class="obj-item">
+          <div class="obj-num">02</div>
+          <div class="obj-content">
+            <h3>Equitable Performance</h3>
+            <p>Ensure reliable diagnostic accuracy across diverse patient populations, addressing dataset bias toward lighter skin tones through data augmentation and balanced sampling.</p>
+          </div>
+        </div>
+        <div class="obj-item">
+          <div class="obj-num">03</div>
+          <div class="obj-content">
+            <h3>Clinical Interpretability (XAI)</h3>
+            <p>Integrate Grad-CAM and SHAP methods to generate visual explanations, bridging the "black-box" gap and building clinician trust in AI-generated predictions.</p>
+          </div>
+        </div>
+        <div class="obj-item">
+          <div class="obj-num">04</div>
+          <div class="obj-content">
+            <h3>Diagnostic Accuracy</h3>
+            <p>Exceed traditional CAD system baselines by achieving &gt;90% accuracy and &gt;0.90 AUC-ROC on the HAM10000 benchmark dataset.</p>
+          </div>
+        </div>
+        <div class="obj-item">
+          <div class="obj-num">05</div>
+          <div class="obj-content">
+            <h3>Teledermatology Deployment</h3>
+            <p>Optimize lightweight model variants (MobileNetV2) for mobile deployment, enabling accessible early-stage screening in regions with limited dermatology specialists.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon">🧬</span>
+          <span class="footer-title">SkinAI</span>
+          <p>Segmentation & Classification of Skin Cancer Diseases Based on Deep Learning</p>
+        </div>
+        <div class="footer-links">
+          <h4>Dataset</h4>
+          <a href="https://www.kaggle.com/datasets/kmader/skin-cancer-mnist-ham10000" target="_blank">HAM10000 on Kaggle</a>
+          <a href="https://challenge.isic-archive.com/" target="_blank">ISIC Archive</a>
+        </div>
+        <div class="footer-links">
+          <h4>Tech Stack</h4>
+          <a href="https://www.tensorflow.org/" target="_blank">TensorFlow</a>
+          <a href="https://pytorch.org/" target="_blank">PyTorch</a>
+          <a href="https://github.com/qubvel/segmentation_models" target="_blank">Segmentation Models</a>
+        </div>
+        <div class="footer-links">
+          <h4>References</h4>
+          <a href="https://arxiv.org/abs/1505.04597" target="_blank">U-Net Paper (2015)</a>
+          <a href="https://arxiv.org/abs/1905.11946" target="_blank">EfficientNet Paper</a>
+          <a href="https://arxiv.org/abs/2010.11929" target="_blank">ViT Paper (2020)</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Deep Learning Research Project · HAM10000 Dataset · Python 3.9+ · TensorFlow 2.15+ · PyTorch</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
